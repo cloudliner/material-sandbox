@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   constructor(private overlay: Overlay, private elementRef: ElementRef) { }
 
   ngOnInit() {
+    /*
     {
       const positionStrategy =
         this.overlay.position().global().centerHorizontally().centerVertically();
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
       const overlayRef = this.overlay.create(config);
       this.templatePortal.attach(overlayRef);
     }
+    */
     {
       const targetElementRef = 
         new ElementRef(this.elementRef.nativeElement.querySelectorAll('.targetElement')[0]);
@@ -43,7 +45,11 @@ export class AppComponent implements OnInit {
           positionStrategy
         });
       const overlayRef = this.overlay.create(config);
-      overlayRef.attach(new ComponentPortal(MyFirstPanelComponent));
+      const componentPortal = new ComponentPortal<MyFirstPanelComponent>(MyFirstPanelComponent);
+      let conponent = componentPortal.component;
+      conponent['overlayRef'] = overlayRef;
+      conponent['componentPortal'] = componentPortal;
+      overlayRef.attach(componentPortal);
     }
   }
 }

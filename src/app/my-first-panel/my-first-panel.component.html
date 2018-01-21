@@ -1,3 +1,9 @@
-<p>
-  my-first-panel works!
-</p>
+<div draggable="true"
+  (dragenter)="dragenter($event)"
+  (dragover)="dragover($event)"
+  (dragleave)="dragleave($event)"
+  (dragend)="dragend($event)"
+  (drop)="drop($event)">
+  <p (click)="click($event)">Title</p>
+  <p>Overlay Contents</p>
+</div>
