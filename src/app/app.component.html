@@ -27,4 +27,8 @@
       sunt in culpa qui officia deserunt mollit anim id est laborum.
    </p>
 </div>
+<div style="width:400px;height:160px;background-color:blue;" *cdk-portal>
+  Template Portal!
+  <button (click)="templatePortal.detach()">click to detach</button>
+</div>
 <router-outlet></router-outlet>

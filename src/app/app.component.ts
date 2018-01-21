@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { MyFirstPanelComponent } from './my-first-panel/my-first-panel.component';
+import { CdkPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +11,12 @@ import { MyFirstPanelComponent } from './my-first-panel/my-first-panel.component
 export class AppComponent implements OnInit {
   title = 'app';
 
+  @ViewChild(CdkPortal) templatePortal: CdkPortal;
+
   constructor(private overlay: Overlay) { }
 
   ngOnInit() {
     const overlayRef = this.overlay.create();
-    overlayRef.attach(new ComponentPortal(MyFirstPanelComponent));
+    this.templatePortal.attach(overlayRef);
   }
 }
