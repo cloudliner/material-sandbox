@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
       const positionStrategy =
         this.overlay.position().global().centerHorizontally().centerVertically();
       const config = new OverlayConfig({
-        positionStrategy
+        positionStrategy,
+        hasBackdrop: true
       });
       const overlayRef = this.overlay.create(config);
       this.templatePortal.attach(overlayRef);
