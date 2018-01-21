@@ -3,22 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module';
 
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 import { AppComponent } from './app.component';
+import { MyFirstPanelComponent } from './my-first-panel/my-first-panel.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatButtonModule,
-    MatCheckboxModule
+    OverlayModule,
+    PortalModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    MyFirstPanelComponent
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MyFirstPanelComponent]
 })
 export class AppModule { }
