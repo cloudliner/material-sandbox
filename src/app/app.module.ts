@@ -3,26 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module';
 
-import { OverlayModule } from '@angular/cdk/overlay';
-import { PortalModule } from '@angular/cdk/portal';
+import { DragOverlayModule } from './drag-overlay/drag-overlay.module';
 
 import { AppComponent } from './app.component';
-import { MyFirstPanelComponent } from './my-first-panel/my-first-panel.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    OverlayModule,
-    PortalModule
+    DragOverlayModule
   ],
   declarations: [
-    AppComponent,
-    MyFirstPanelComponent
+    AppComponent
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [MyFirstPanelComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
