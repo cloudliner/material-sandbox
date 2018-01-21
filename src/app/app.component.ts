@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CdkPortal } from '@angular/cdk/portal';
 
@@ -16,7 +16,12 @@ export class AppComponent implements OnInit {
   constructor(private overlay: Overlay) { }
 
   ngOnInit() {
-    const overlayRef = this.overlay.create();
+    const positionStrategy =
+      this.overlay.position().global().centerHorizontally().centerVertically();
+    const config = new OverlayConfig({
+      positionStrategy
+    });
+    const overlayRef = this.overlay.create(config);
     this.templatePortal.attach(overlayRef);
   }
 }
