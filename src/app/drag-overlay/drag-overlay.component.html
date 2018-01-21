@@ -1,4 +1,5 @@
 <div *cdk-portal class="drag-overlay" draggable="true"
+  (dragstart)="dragstart($event)"
   (dragenter)="dragenter($event)"
   (dragover)="dragover($event)"
   (dragleave)="dragleave($event)"

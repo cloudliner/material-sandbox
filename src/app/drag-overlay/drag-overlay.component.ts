@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig, GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { CdkPortal } from '@angular/cdk/portal';
 
 @Component({
@@ -8,23 +8,40 @@ import { CdkPortal } from '@angular/cdk/portal';
   styleUrls: ['./drag-overlay.component.scss']
 })
 export class DragOverlayComponent implements OnInit {
-  private positionStrategy: GlobalPositionStrategy;
+  private positionStrategy: ConnectedPositionStrategy;
   private overlayRef: OverlayRef;
   private startX :number;
   private startY :number;
+  private offsetX = 100;
+  private offsetY = 100;
 
   @ViewChild(CdkPortal) templatePortal: CdkPortal;
 
   constructor(private overlay: Overlay, private elementRef: ElementRef) { }
 
   ngOnInit() {
+    const targetElementRef = 		
+      new ElementRef(document.querySelectorAll('.targetElement')[0]);
+    console.log(targetElementRef);
     this.positionStrategy =
-      this.overlay.position().global().left('100px').top('100px');
+      this.overlay.position().connectedTo(targetElementRef, {
+        originX: 'start',
+        originY: 'top'
+      }, {
+        overlayX: 'start',
+        overlayY: 'top'
+      }).withOffsetX(this.offsetX).withOffsetY(this.offsetY);
     const config = new OverlayConfig({
       positionStrategy: this.positionStrategy
     });
     this.overlayRef = this.overlay.create(config);
     this.templatePortal.attach(this.overlayRef);
+  }
+
+  dragstart($event) {
+    console.log('dragstart:', $event);
+    this.startX = $event.layerX;
+    this.startY = $event.layerY;
   }
 
   dragenter($event) {
@@ -41,12 +58,12 @@ export class DragOverlayComponent implements OnInit {
 
   dragend($event) {
     console.log('dragend:', $event);
-    let x = $event.pageX;
-    let y = $event.pageY;
-    console.log('x:', x);
-    console.log('y:', y);
-    this.positionStrategy.left(x + 'px');
-    this.positionStrategy.top(y + 'px');
+    this.offsetX = this.offsetX + $event.layerX - this.startX;
+    this.offsetY = this.offsetY + $event.layerY - this.startY;
+    console.log('x:', this.offsetX);
+    console.log('y:', this.offsetY);
+    this.positionStrategy.withOffsetX(this.offsetX);
+    this.positionStrategy.withOffsetY(this.offsetY);
     this.overlayRef.updatePosition();
   }
 
