@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
 import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { CdkPortal } from '@angular/cdk/portal';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'app-drag-overlay',
@@ -36,12 +38,35 @@ export class DragOverlayComponent implements OnInit {
     });
     this.overlayRef = this.overlay.create(config);
     this.templatePortal.attach(this.overlayRef);
+
+    const buttonElement = document.getElementById('drag-overlay');
+    let dragstartEvents$ = Observable.fromEvent(buttonElement, 'dragstart');
+    let mousemoveEvents$ = Observable.fromEvent(document, 'mousemove');
+    let dragendEvents$ = Observable.fromEvent(buttonElement, 'dragend');
+
+    dragstartEvents$.subscribe((event:any) => {
+      console.log('dragstart:', event);
+      this.startX = event.pageX;
+      this.startY = event.pageY;  
+    });
+    dragendEvents$.subscribe((event:any) => {
+      console.log('dragend:', event);
+      this.offsetX = this.offsetX + event.pageX - this.startX;
+      this.offsetY = this.offsetY + event.pageY - this.startY;
+      console.log('x:', this.offsetX);
+      console.log('y:', this.offsetY);
+      this.positionStrategy.withOffsetX(this.offsetX);
+      this.positionStrategy.withOffsetY(this.offsetY);
+      this.overlayRef.updatePosition();  
+    });
   }
 
   dragstart($event) {
     console.log('dragstart:', $event);
-    this.startX = $event.layerX;
-    this.startY = $event.layerY;
+    /*
+    this.startX = $event.pageX;
+    this.startY = $event.pageY;
+    */
   }
 
   dragenter($event) {
@@ -58,17 +83,20 @@ export class DragOverlayComponent implements OnInit {
 
   dragend($event) {
     console.log('dragend:', $event);
-    this.offsetX = this.offsetX + $event.layerX - this.startX;
-    this.offsetY = this.offsetY + $event.layerY - this.startY;
+    /*
+    this.offsetX = this.offsetX + $event.pageX - this.startX;
+    this.offsetY = this.offsetY + $event.pageY - this.startY;
     console.log('x:', this.offsetX);
     console.log('y:', this.offsetY);
     this.positionStrategy.withOffsetX(this.offsetX);
     this.positionStrategy.withOffsetY(this.offsetY);
     this.overlayRef.updatePosition();
+    */
   }
 
   drop($event) {
     console.log('drop:', $event);
+    $event.stopPropagation()
   }
 
   click($event) {
