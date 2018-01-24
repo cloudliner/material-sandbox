@@ -1,10 +1,4 @@
-<div *cdk-portal class="drag-overlay" id="drag-overlay" draggable="true"
-  (dragstart)="dragstart($event)"
-  (dragenter)="dragenter($event)"
-  (dragover)="dragover($event)"
-  (dragleave)="dragleave($event)"
-  (dragend)="dragend($event)"
-  (drop)="drop($event)" height="100" width="100">
+<div *cdk-portal class="drag-overlay" id="drag-overlay" draggable="true" height="100" width="100">
   <p (click)="click($event)">Title</p>
   <button (click)="templatePortal.detach()">click to detach</button>
 </div>
