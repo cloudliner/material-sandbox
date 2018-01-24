@@ -43,7 +43,6 @@ export class DragOverlayComponent implements OnInit {
 
     const buttonElement = document.getElementById('drag-overlay');
     let dragstartEvents$ = Observable.fromEvent(buttonElement, 'dragstart');
-    let dragendEvents$ = Observable.fromEvent(buttonElement, 'dragend');
     let dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     let dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
@@ -51,9 +50,6 @@ export class DragOverlayComponent implements OnInit {
       console.log('dragstart:', event);
       this.startX = event.pageX;
       this.startY = event.pageY;  
-    });
-    dragendEvents$.subscribe((event:any) => {
-      console.log('dragend:', event);
     });
     dragoverEvents$.subscribe((event:any) => {
       console.log('dragover:', event);
@@ -70,57 +66,5 @@ export class DragOverlayComponent implements OnInit {
       this.overlayRef.updatePosition();
       event.preventDefault();
     });
-  }
-
-  dragstart($event) {
-    /*
-    console.log('dragstart:', $event);
-    this.startX = $event.pageX;
-    this.startY = $event.pageY;
-    */
-  }
-
-  dragenter($event) {
-    /*
-    console.log('dragenter:', $event);
-    */
-  }
-
-  dragover($event) {
-    /*
-    console.log('dragover:', $event);
-    */
-  }
-
-  dragleave($event) {
-    /*
-    console.log('dragleave:', $event);
-    */
-  }
-
-  dragend($event) {
-    /*
-    console.log('dragend:', $event);
-    this.offsetX = this.offsetX + $event.pageX - this.startX;
-    this.offsetY = this.offsetY + $event.pageY - this.startY;
-    console.log('x:', this.offsetX);
-    console.log('y:', this.offsetY);
-    this.positionStrategy.withOffsetX(this.offsetX);
-    this.positionStrategy.withOffsetY(this.offsetY);
-    this.overlayRef.updatePosition();
-    */
-  }
-
-  drop($event) {
-    /*
-    console.log('drop:', $event);
-    $event.stopPropagation();
-    */
-  }
-
-  click($event) {
-    /*
-    console.log('click:', $event);
-    */
   }
 }
