@@ -74,13 +74,11 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         // drop できるか判定 (?)
         console.log('drop:', event);
         console.log('toElement', event.toElement);
-        
-        this.offsetX = Math.max(0,
-          Math.min(window.innerWidth - overlayPane.clientWidth,
-                   this.offsetX + event.pageX - this.startX));
-        this.offsetY = Math.max(0,
-          Math.min(window.innerHeight - overlayPane.clientHeight,
-                   this.offsetY + event.pageY - this.startY));
+
+        this.offsetX = Math.min(window.innerWidth - overlayPane.clientWidth,
+          Math.max(0, this.offsetX + event.pageX - this.startX));
+        this.offsetY = Math.min(window.innerHeight - overlayPane.clientHeight,
+          Math.max(0, this.offsetY + event.pageY - this.startY));
         
         this.positionStrategy.withOffsetX(this.offsetX);
         this.positionStrategy.withOffsetY(this.offsetY);
