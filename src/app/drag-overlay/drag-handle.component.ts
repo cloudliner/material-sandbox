@@ -75,9 +75,26 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         console.log('drop:', event);
         console.log('toElement', event.toElement);
         console.log('overlayContainer', this.overlayContainer);
-
+        console.log('window', window.innerWidth, window.innerHeight);
+        const innerWidth = window.innerWidth;
+        const innerHeight = window.innerHeight;
+        console.log('overlayPane', overlayPane.clientWidth, overlayPane.clientHeight);
+        const overlaytWidth = overlayPane.clientWidth;
+        const overlayHeight = overlayPane.clientHeight;
         this.offsetX = this.offsetX + event.pageX - this.startX;
+        if (innerWidth -  overlaytWidth < this.offsetX) {
+          this.offsetX = innerWidth - overlaytWidth;
+        }
+        if (this.offsetX < 0) {
+          this.offsetX = 0;
+        }
         this.offsetY = this.offsetY + event.pageY - this.startY;
+        if (innerHeight - overlayHeight < this.offsetY) {
+          this.offsetY = innerHeight - overlayHeight;
+        }
+        if (this.offsetY < 0) {
+          this.offsetY = 0;
+        }
         this.positionStrategy.withOffsetX(this.offsetX);
         this.positionStrategy.withOffsetY(this.offsetY);
         this.overlayRef.updatePosition();
