@@ -39,12 +39,11 @@ export class OverlayComponent implements OnInit {
       positionStrategy: this.positionStrategy
     });
     this.overlayRef = this.overlay.create(config);
-    this.overlayRef.attach(new ComponentPortal(DragOverlayComponent));
+    let portal = new ComponentPortal(DragOverlayComponent);
+    this.overlayRef.attach(portal);
 
-    // TODO Fix It
-    const draggableElementRef = document.getElementById('drag-overlay');
-
-    let dragstartEvents$ = Observable.fromEvent(draggableElementRef, 'dragstart');
+    let overlayPane = this.overlayRef.overlayElement;
+    let dragstartEvents$ = Observable.fromEvent(overlayPane, 'dragstart');
     let dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     let dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
