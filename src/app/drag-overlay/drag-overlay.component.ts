@@ -51,8 +51,6 @@ export class OverlayComponent implements OnInit {
     let dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     let dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
-    // switchMap 前のイベントをなくなったことにする > 最新のに
-    // flatMap 前のイベントを継続
     this.dragSub = dragstartEvents$.subscribe((event:any) => {
       console.log('dragstart:', event);
       this.startX = event.pageX;
