@@ -4,7 +4,6 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/take';
 
 import { DragOverlayComponent } from './drag-overlay.component';
