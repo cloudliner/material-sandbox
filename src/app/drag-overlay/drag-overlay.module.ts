@@ -3,7 +3,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatButtonModule } from '@angular/material/button';
 
-import { DragOverlayComponent, OverlayComponent } from './drag-overlay.component';
+import { DragOverlayComponent } from './drag-overlay.component';
+import { DragHandleComponent } from './drag-handle.component';
 
 @NgModule({
   imports: [
@@ -12,11 +13,11 @@ import { DragOverlayComponent, OverlayComponent } from './drag-overlay.component
     MatButtonModule
   ],
   declarations: [
-    OverlayComponent,
+    DragHandleComponent,
     DragOverlayComponent
   ],
   exports: [
-    OverlayComponent,
+    DragHandleComponent,
     DragOverlayComponent
   ],
   entryComponents: [DragOverlayComponent]

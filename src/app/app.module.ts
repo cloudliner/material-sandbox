@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
     DragOverlayModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
