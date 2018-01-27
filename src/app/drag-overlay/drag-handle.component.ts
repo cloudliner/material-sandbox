@@ -4,6 +4,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/take';
 
 import { DragOverlayComponent } from './drag-overlay.component';
@@ -70,31 +71,17 @@ export class DragHandleComponent implements OnInit, OnDestroy {
       });
 
       const dropSub = dropEvents$.take(1).subscribe((event:DragEvent) => {
-        // drop 時に外に出ないようにする
         // drop できるか判定 (?)
         console.log('drop:', event);
         console.log('toElement', event.toElement);
-        console.log('overlayContainer', this.overlayContainer);
-        console.log('window', window.innerWidth, window.innerHeight);
-        const innerWidth = window.innerWidth;
-        const innerHeight = window.innerHeight;
-        console.log('overlayPane', overlayPane.clientWidth, overlayPane.clientHeight);
-        const overlaytWidth = overlayPane.clientWidth;
-        const overlayHeight = overlayPane.clientHeight;
-        this.offsetX = this.offsetX + event.pageX - this.startX;
-        if (innerWidth -  overlaytWidth < this.offsetX) {
-          this.offsetX = innerWidth - overlaytWidth;
-        }
-        if (this.offsetX < 0) {
-          this.offsetX = 0;
-        }
-        this.offsetY = this.offsetY + event.pageY - this.startY;
-        if (innerHeight - overlayHeight < this.offsetY) {
-          this.offsetY = innerHeight - overlayHeight;
-        }
-        if (this.offsetY < 0) {
-          this.offsetY = 0;
-        }
+        
+        this.offsetX = Math.max(0,
+          Math.min(window.innerWidth - overlayPane.clientWidth,
+                   this.offsetX + event.pageX - this.startX));
+        this.offsetY = Math.max(0,
+          Math.min(window.innerHeight - overlayPane.clientHeight,
+                   this.offsetY + event.pageY - this.startY));
+        
         this.positionStrategy.withOffsetX(this.offsetX);
         this.positionStrategy.withOffsetY(this.offsetY);
         this.overlayRef.updatePosition();
