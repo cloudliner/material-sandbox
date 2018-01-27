@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { MatButtonModule } from '@angular/material/button';
 
 import { DragOverlayComponent, OverlayComponent } from './drag-overlay.component';
 
 @NgModule({
   imports: [
     OverlayModule,
-    PortalModule
+    PortalModule,
+    MatButtonModule
   ],
   declarations: [
     OverlayComponent,

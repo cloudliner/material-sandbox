@@ -1,4 +1,5 @@
-<div class="drag-overlay" draggable="true" height="100" width="100">
-  <p>Title</p>
-  <button>click to detach</button>
+<div class="drag-overlay" height="150" width="150">
+  <div draggable="true" (mousedown)="mousedown($event)">Drag Area</div>
+  <button mat-raised-button color="primary">Primary</button>
+  <button (click)="click()">click to detach</button>
 </div>
