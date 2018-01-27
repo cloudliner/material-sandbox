@@ -51,6 +51,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
     const overlayPane = this.overlayRef.overlayElement;
 
     const dragstartEvents$ = Observable.fromEvent(overlayPane, 'dragstart');
+    const dragEnd$ = Observable.fromEvent(overlayPane, 'dragend');
     const dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     const dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
@@ -70,6 +71,8 @@ export class DragHandleComponent implements OnInit, OnDestroy {
       });
 
       const dropSub = dropEvents$.take(1).subscribe((event:any) => {
+        // drop 時に外に出ないようにする
+        // drop できるか判定 (?)
         console.log('drop:', event);
         this.offsetX = this.offsetX + event.pageX - this.startX;
         this.offsetY = this.offsetY + event.pageY - this.startY;
@@ -79,6 +82,13 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         dragoverSub.unsubscribe();
         event.preventDefault();
       });
+
+      const dragendSub = dragEnd$.subscribe((event:any) => {
+        console.log('dragend', event);
+        dropSub.unsubscribe();
+        dragendSub.unsubscribe();
+        dragoverSub.unsubscribe();
+      })
     });
   }
   ngOnDestroy() {
