@@ -24,7 +24,9 @@ export class OverlayComponent implements OnInit {
   constructor(private overlay: Overlay) { }
 
   ngOnInit() {
+    // Drop対象
     const targetElementRef = new ElementRef(document.body);
+
     this.positionStrategy =
       this.overlay.position().connectedTo(targetElementRef, {
         originX: 'start',
@@ -42,7 +44,9 @@ export class OverlayComponent implements OnInit {
     let portal = new ComponentPortal(DragOverlayComponent);
     this.overlayRef.attach(portal);
 
-    let overlayPane = this.overlayRef.overlayElement;
+    // Drag対象
+    const overlayPane = this.overlayRef.overlayElement;
+
     let dragstartEvents$ = Observable.fromEvent(overlayPane, 'dragstart');
     let dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     let dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
