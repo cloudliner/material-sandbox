@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ComponentRef } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy, OverlayContainer } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -22,7 +22,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
   private offsetY = 100; // Initial position
   private dragSub: Subscription;
 
-  constructor(private overlay: Overlay) { }
+  constructor(private overlay: Overlay, private overlayContainer: OverlayContainer) { }
 
   ngOnInit() {
     // Drop target area
@@ -55,8 +55,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
     const dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     const dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
-    // TODO: event を any 以外にできないのか？
-    this.dragSub = dragstartEvents$.subscribe((event:any) => {
+    this.dragSub = dragstartEvents$.subscribe((event:DragEvent) => {
       console.log('dragstart:', event);
       event.dataTransfer.effectAllowed = "move"; // icon
       event.dataTransfer.setData('text/plain', 'dragging'); // for Firefox
@@ -66,14 +65,17 @@ export class DragHandleComponent implements OnInit, OnDestroy {
       this.startX = event.pageX;
       this.startY = event.pageY;
 
-      const dragoverSub = dragoverEvents$.subscribe((event:any) => {
+      const dragoverSub = dragoverEvents$.subscribe((event:DragEvent) => {
         event.preventDefault();
       });
 
-      const dropSub = dropEvents$.take(1).subscribe((event:any) => {
+      const dropSub = dropEvents$.take(1).subscribe((event:DragEvent) => {
         // drop 時に外に出ないようにする
         // drop できるか判定 (?)
         console.log('drop:', event);
+        console.log('toElement', event.toElement);
+        console.log('overlayContainer', this.overlayContainer);
+
         this.offsetX = this.offsetX + event.pageX - this.startX;
         this.offsetY = this.offsetY + event.pageY - this.startY;
         this.positionStrategy.withOffsetX(this.offsetX);
