@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, ChangeDetectorRef, Output, ComponentRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, ChangeDetectorRef, ComponentRef } from '@angular/core';
 import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { CdkPortal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs/Observable';
@@ -66,16 +66,6 @@ export class OverlayComponent implements OnInit, OnDestroy {
       this.startX = event.pageX;
       this.startY = event.pageY; 
       const dragoverSub = dragoverEvents$.subscribe((event:any) => {
-        // console.log('dragover:', event);
-        /*
-        let offsetX = this.offsetX + event.pageX - this.startX;
-        let offsetY = this.offsetY + event.pageY - this.startY;
-        console.log('x:', offsetX);
-        console.log('y:', offsetY);
-        this.positionStrategy.withOffsetX(offsetX);
-        this.positionStrategy.withOffsetY(offsetY);
-        this.overlayRef.updatePosition();
-        */
         event.preventDefault();
       });
       const dropSub = dropEvents$.take(1).subscribe((event:any) => {
@@ -108,11 +98,11 @@ export class OverlayComponent implements OnInit, OnDestroy {
 export class DragOverlayComponent {
   private _layerX: number;
   private _layerY: number;
-  @Output()
+
   get layerX(): number {
     return this._layerX;
   }
-  @Output()
+
   get layerY(): number {
     return this._layerY;
   }
