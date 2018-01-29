@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ComponentRef } from '@angular/core';
-import { Overlay, OverlayRef, OverlayConfig, ConnectedPositionStrategy, OverlayContainer } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, OverlayConfig, GlobalPositionStrategy, OverlayContainer } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,7 +14,7 @@ import { DragOverlayComponent } from './drag-overlay.component';
   template: ''
 })
 export class DragHandleComponent implements OnInit, OnDestroy {
-  private positionStrategy: ConnectedPositionStrategy;
+  private positionStrategy: GlobalPositionStrategy;
   private overlayRef: OverlayRef;
   private startX :number;
   private startY :number;
@@ -29,16 +29,9 @@ export class DragHandleComponent implements OnInit, OnDestroy {
     const targetElementRef = new ElementRef(document.body);
 
     // Initical position and layout
-    this.positionStrategy =
-      this.overlay.position().connectedTo(targetElementRef, {
-        originX: 'start',
-        originY: 'top'
-      }, {
-        overlayX: 'start',
-        overlayY: 'top'
-      });
-    this.positionStrategy.withOffsetX(this.offsetX);
-    this.positionStrategy.withOffsetY(this.offsetY);
+    this.positionStrategy = this.overlay.position().global();
+    this.positionStrategy.left(this.offsetX + 'px');
+    this.positionStrategy.top(this.offsetY + 'px');
     const config = new OverlayConfig({
       positionStrategy: this.positionStrategy,
       panelClass: 'overlayPane' // for style?
@@ -79,8 +72,8 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         this.offsetY = Math.min(window.innerHeight - overlayPane.clientHeight,
           Math.max(0, this.offsetY + event.pageY - this.startY));
         
-        this.positionStrategy.withOffsetX(this.offsetX);
-        this.positionStrategy.withOffsetY(this.offsetY);
+          this.positionStrategy.left(this.offsetX + 'px');
+          this.positionStrategy.top(this.offsetY + 'px');
         this.overlayRef.updatePosition();
         dragoverSub.unsubscribe();
         event.preventDefault();
