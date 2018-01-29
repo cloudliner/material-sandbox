@@ -58,14 +58,14 @@ export class DragHandleComponent implements OnInit, OnDestroy {
       this.startX = event.pageX;
       this.startY = event.pageY;
 
-      const dragoverSub = dragoverEvents$.subscribe((event:DragEvent) => {
+      const dragoverSubscription = dragoverEvents$.subscribe((event:DragEvent) => {
         event.preventDefault();
       });
 
       const dropSubscription = dropEvents$.take(1).subscribe((event:DragEvent) => {
-        // drop できるか判定 (?)
-        console.log('drop:', event);
-        console.log('toElement', event.toElement);
+
+        console.log('drop:', event); // for debug
+        console.log('toElement', event.toElement); // drop先の取得 (?)
 
         this.offsetX = Math.min(window.innerWidth - overlayPane.clientWidth,
           Math.max(0, this.offsetX + event.pageX - this.startX));
@@ -75,7 +75,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
           this.positionStrategy.left(this.offsetX + 'px');
           this.positionStrategy.top(this.offsetY + 'px');
         this.overlayRef.updatePosition();
-        dragoverSub.unsubscribe();
+        dragoverSubscription.unsubscribe();
         event.preventDefault();
       });
 
@@ -83,7 +83,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         console.log('dragend', event);
         dropSubscription.unsubscribe();
         dragendSubscription.unsubscribe();
-        dragoverSub.unsubscribe();
+        dragoverSubscription.unsubscribe();
       })
     });
   }
