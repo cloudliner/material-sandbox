@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+
+export interface DraggableCompoent {
+  readonly dragstartX: number;
+  readonly dragstartY: number;
+  readonly dragImage: Element;
+}
 
 @Component({
   selector: 'app-drag-overlay',
   templateUrl: './drag-overlay.component.html',
   styleUrls: ['./drag-overlay.component.scss']
 })
-export class DragOverlayComponent {
+export class DragOverlayComponent implements DraggableCompoent {
   private _layerX: number;
   private _layerY: number;
+  @ViewChild('dragImage') _dragImage: ElementRef;
 
-  get layerX(): number {
+  get dragstartX(): number {
     return this._layerX;
   }
-  get layerY(): number {
+  get dragstartY(): number {
     return this._layerY;
+  }
+  get dragImage(): Element {
+    return this._dragImage.nativeElement;
   }
   // for Test
   click(event) {
