@@ -20,7 +20,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
   private startY :number;
   private offsetX = 100; // Initial position
   private offsetY = 100; // Initial position
-  private dragSub: Subscription;
+  private dragSubscripton: Subscription;
 
   constructor(private overlay: Overlay, private overlayContainer: OverlayContainer) { }
 
@@ -55,7 +55,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
     const dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     const dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
-    this.dragSub = dragstartEvents$.subscribe((event:DragEvent) => {
+    this.dragSubscripton = dragstartEvents$.subscribe((event:DragEvent) => {
       console.log('dragstart:', event);
       event.dataTransfer.effectAllowed = "move"; // icon
       event.dataTransfer.setData('text/plain', 'dragging'); // for Firefox
@@ -69,7 +69,7 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         event.preventDefault();
       });
 
-      const dropSub = dropEvents$.take(1).subscribe((event:DragEvent) => {
+      const dropSubscription = dropEvents$.take(1).subscribe((event:DragEvent) => {
         // drop できるか判定 (?)
         console.log('drop:', event);
         console.log('toElement', event.toElement);
@@ -86,15 +86,15 @@ export class DragHandleComponent implements OnInit, OnDestroy {
         event.preventDefault();
       });
 
-      const dragendSub = dragEnd$.subscribe((event:any) => {
+      const dragendSubscription = dragEnd$.subscribe((event:any) => {
         console.log('dragend', event);
-        dropSub.unsubscribe();
-        dragendSub.unsubscribe();
+        dropSubscription.unsubscribe();
+        dragendSubscription.unsubscribe();
         dragoverSub.unsubscribe();
       })
     });
   }
   ngOnDestroy() {
-    this.dragSub.unsubscribe();
+    this.dragSubscripton.unsubscribe();
   }
 }
