@@ -87,7 +87,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.setPosition(
-      (window.innerWidth - this.overlayRef.overlayElement.clientWidth) / 2,
+      (document.body.clientWidth - this.overlayRef.overlayElement.clientWidth) / 2,
       window.innerHeight - this.overlayRef.overlayElement.clientHeight);
   }
 
@@ -121,7 +121,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
       this.offsetY = Math.max(0, y);
       if (this.overlayRef.overlayElement) {
         this.offsetX = Math.min(this.offsetX,
-          window.innerWidth - this.overlayRef.overlayElement.clientWidth);
+          document.body.clientWidth - this.overlayRef.overlayElement.clientWidth);
         this.offsetY = Math.min(this.offsetY,
           window.innerHeight - this.overlayRef.overlayElement.clientHeight);
       }
