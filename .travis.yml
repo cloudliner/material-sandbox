@@ -1,0 +1,17 @@
+dist: trusty
+language: node_js
+node_js:
+- '8'
+before_script:
+  - ng build --aot --prod
+deploy:
+  provider: s3
+  access_key_id: AKIAI7PLMQZJAIQUPDJQ
+  secret_access_key:
+    secure: ea2kZLhV9P95UW6QSa8U/kejly+ZBceq3yPi2bvEXA+5g+4/3+5n3a1nECJuweCVCo4FyAafAUXWT5stb2vxnLE+YS6/KmUqvlKTsotMn49P6k8/IFQQNeMzf1IqCsNaANDa5pLsawZ+ml8Fl0N/8mAGOCCeVP6OXbNgfkKJQwPfEJs7gakhB7BAz2qLLHkvjs9mbLEZae69NA72A7L7kmLqdYRII0Upm/shvuVGtic2JRMhv2EgpIYPvrrf3/mEYYX8cS0tD0x2+aUixFCmdA9MeXBkQsDS+SvS+6PFwHqgOsIsxYZPUyLK6H1RttFOEZlOAzn+dnY67mEjlhmMZMO3A1/tSZT/GdEFBeYrqLNk+5cKYOSK1rQvJ8jdo03sHfBN3OeQM+J62ukbiHijya35/ryEcVELt+rusxy0fFAALsS6gWgtBk4Wnj7hjfooMWpLTzp1JfOOzIUtB88B2wg1QcjY7noHA3B2scMIrpZnW1znUd7e+r9RpTSzsfD/InBclccq8KlD49MMTWY4nrYBYTSxkSxfqmW5KrkVpHO0/9W3XjrijMwbE+lubQB4lA6trsVLvSwrBC3SF686n3jpCMNwqr6XCaeonZAgM8HKvSqh5bVJ3j1srC6qRYH8KchVSFdvEsB4LxH7pYPqwyjkfX3w//EH24tt9m6HwJ4=
+  bucket: s3://material-sandbox/
+  local-dir: "./dist/"
+  acl: public_read
+  on:
+    repo: cloudliner/material-sandbox
+    all_branches: true
