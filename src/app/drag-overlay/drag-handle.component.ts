@@ -104,6 +104,9 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dragendSubscription) {
       this.dragendSubscription.unsubscribe();
     }
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
 
   private setDragImage(event: DragEvent, dragInstance: DraggableCompoent) {
