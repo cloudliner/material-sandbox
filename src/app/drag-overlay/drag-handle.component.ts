@@ -20,11 +20,13 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
   private startY: number;
   private offsetX = 0;
   private offsetY = 0;
-  private dragSubscripton: Subscription;
-  private dropSubscription: Subscription;
-  private dragoverSubscription: Subscription;
-  private dragendSubscription: Subscription;
-  private resizeSubscription: Subscription;
+  private subscriptions: { [key: string]: Subscription } = {
+    drag: null,
+    drop: null,
+    dragover: null,
+    dragend: null,
+    resize: null
+  };
 
   constructor(private overlay: Overlay, private overlayContainer: OverlayContainer) { }
 
@@ -48,38 +50,38 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     const dragover$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     const drop$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
-    this.dragSubscripton = dragstart$.subscribe((event: DragEvent) => {
+    this.subscriptions.drag = dragstart$.subscribe((event: DragEvent) => {
       console.log('dragstart:', event);
       const instance: DraggableCompoent = componentRef.instance;
       this.setDragImage(event, instance);
       this.startX = event.pageX;
       this.startY = event.pageY;
 
-      this.dragoverSubscription = dragover$.subscribe((dragoverEvent: DragEvent) => {
+      this.subscriptions.dragover = dragover$.subscribe((dragoverEvent: DragEvent) => {
         dragoverEvent.preventDefault();
       });
 
-      this.dropSubscription = drop$.take(1).subscribe((dragEvent: DragEvent) => {
+      this.subscriptions.drop = drop$.take(1).subscribe((dragEvent: DragEvent) => {
         console.log('drop:', dragEvent); // for debug
         console.log('toElement', dragEvent.toElement); // drop先の取得
         this.setPosition(
           this.offsetX + dragEvent.pageX - this.startX,
           this.offsetY + dragEvent.pageY - this.startY);
-        this.dragoverSubscription.unsubscribe();
+        this.subscriptions.dragover.unsubscribe();
         dragEvent.preventDefault();
       });
 
-      this.dragendSubscription = dragend$.subscribe((dragendEvent: DragEvent) => {
+      this.subscriptions.dragend = dragend$.subscribe((dragendEvent: DragEvent) => {
         console.log('dragend', dragendEvent); // for debug
-        this.dropSubscription.unsubscribe();
-        this.dragendSubscription.unsubscribe();
-        this.dragoverSubscription.unsubscribe();
+        this.subscriptions.drop.unsubscribe();
+        this.subscriptions.dragend.unsubscribe();
+        this.subscriptions.dragover.unsubscribe();
       });
     });
 
     // for window resize
     const resize$ = Observable.fromEvent(window, 'resize');
-    this.resizeSubscription = resize$.subscribe((resizeEvent: UIEvent) => {
+    this.subscriptions.resize = resize$.subscribe((resizeEvent: UIEvent) => {
       console.log('resize', resizeEvent);
       this.setPosition(this.offsetX, this.offsetY);
     });
@@ -92,20 +94,11 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.dragSubscripton) {
-      this.dragSubscripton.unsubscribe();
-    }
-    if (this.dropSubscription) {
-      this.dropSubscription.unsubscribe();
-    }
-    if (this.dragoverSubscription) {
-      this.dragoverSubscription.unsubscribe();
-    }
-    if (this.dragendSubscription) {
-      this.dragendSubscription.unsubscribe();
-    }
-    if (this.resizeSubscription) {
-      this.resizeSubscription.unsubscribe();
+    for (let key in this.subscriptions) {
+      let eventSubscription:Subscription = this.subscriptions[key];
+      if (eventSubscription) {
+        eventSubscription.unsubscribe();
+      }
     }
   }
 
