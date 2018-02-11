@@ -32,4 +32,4 @@ deploy:
   acl: public_read
   on:
     repo: cloudliner/material-sandbox
-    all_branches: true
+    branche: staging
