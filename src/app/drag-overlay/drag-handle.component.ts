@@ -16,8 +16,8 @@ import { DraggableCompoent, DragOverlayComponent } from './drag-overlay.componen
 export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
   private positionStrategy: GlobalPositionStrategy;
   private overlayRef: OverlayRef;
-  private startX :number;
-  private startY :number;
+  private startX: number;
+  private startY: number;
   private offsetX = 0;
   private offsetY = 0;
   private dragSubscripton: Subscription;
@@ -47,33 +47,33 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     const dragoverEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
     const dropEvents$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
-    this.dragSubscripton = dragstartEvents$.subscribe((event:DragEvent) => {
+    this.dragSubscripton = dragstartEvents$.subscribe((event: DragEvent) => {
       console.log('dragstart:', event);
       const instance: DraggableCompoent = componentRef.instance;
       this.setDragImage(event, instance);
       this.startX = event.pageX;
       this.startY = event.pageY;
 
-      this.dragoverSubscription = dragoverEvents$.subscribe((event:DragEvent) => {
-        event.preventDefault();
+      this.dragoverSubscription = dragoverEvents$.subscribe((dragoverEvent: DragEvent) => {
+        dragoverEvent.preventDefault();
       });
 
-      this.dropSubscription = dropEvents$.take(1).subscribe((event:DragEvent) => {
-        console.log('drop:', event); // for debug
-        console.log('toElement', event.toElement); // drop先の取得
+      this.dropSubscription = dropEvents$.take(1).subscribe((dragEvent: DragEvent) => {
+        console.log('drop:', dragEvent); // for debug
+        console.log('toElement', dragEvent.toElement); // drop先の取得
         this.setPosition(
-          this.offsetX + event.pageX - this.startX,
-          this.offsetY + event.pageY - this.startY);   
+          this.offsetX + dragEvent.pageX - this.startX,
+          this.offsetY + dragEvent.pageY - this.startY);
         this.dragoverSubscription.unsubscribe();
-        event.preventDefault();
+        dragEvent.preventDefault();
       });
 
-      this.dragendSubscription = dragEnd$.subscribe((event:any) => {
-        console.log('dragend', event); // for debug
+      this.dragendSubscription = dragEnd$.subscribe((dragendEvent: DragEvent) => {
+        console.log('dragend', dragendEvent); // for debug
         this.dropSubscription.unsubscribe();
         this.dragendSubscription.unsubscribe();
         this.dragoverSubscription.unsubscribe();
-      })
+      });
     });
   }
 
@@ -98,13 +98,13 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private setDragImage(event:DragEvent, dragInstance:DraggableCompoent) {
-    event.dataTransfer.effectAllowed = "move"; // icon
+  private setDragImage(event: DragEvent, dragInstance: DraggableCompoent) {
+    event.dataTransfer.effectAllowed = 'move'; // icon
     event.dataTransfer.setData('text/plain', 'dragging'); // for Firefox
     event.dataTransfer.setDragImage(dragInstance.dragImage, dragInstance.dragstartX, dragInstance.dragstartY);
   }
 
-  private setPosition(x:number, y:number) {
+  private setPosition(x: number, y: number) {
     if (this.overlayRef && this.positionStrategy) {
       this.offsetX = Math.max(0, x);
       this.offsetY = Math.max(0, y);
