@@ -33,3 +33,4 @@ deploy:
   on:
     repo: cloudliner/material-sandbox
     branche: staging
+    skip_cleanup: true
