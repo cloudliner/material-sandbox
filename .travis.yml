@@ -2,8 +2,25 @@ dist: trusty
 language: node_js
 node_js:
 - '8'
+apt:
+  sources:
+  - google-chrome
+  packages:
+  - google-chrome-stable
+  - google-chrome-beta
+cache:
+  apt: true
+  bundler: true
+  directories:
+  - node_modules
+before_install:
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 before_script:
-  - ng build --aot --prod
+- ng build --aot --prod
+script:
+  - karma start ./karma.conf.js --single-run
 deploy:
   provider: s3
   access_key_id: AKIAI7PLMQZJAIQUPDJQ
