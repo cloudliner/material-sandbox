@@ -12,15 +12,15 @@ export interface DraggableCompoent {
   styleUrls: ['./drag-overlay.component.scss']
 })
 export class DragOverlayComponent implements DraggableCompoent {
-  private _layerX: number;
-  private _layerY: number;
+  private _offsetX: number;
+  private _offsetY: number;
   @ViewChild('dragImage') _dragImage: ElementRef;
 
   get dragstartX(): number {
-    return this._layerX;
+    return this._offsetX;
   }
   get dragstartY(): number {
-    return this._layerY;
+    return this._offsetY;
   }
   get dragImage(): Element {
     return this._dragImage.nativeElement;
@@ -30,9 +30,9 @@ export class DragOverlayComponent implements DraggableCompoent {
     console.log('click', event);
   }
   // for set drag position
-  mousedown(event) {
+  mousedown(event:MouseEvent) {
     console.log('mousedown', event);
-    this._layerX = event['layerX'];
-    this._layerY = event['layerY'];
+    this._offsetX = event.offsetX;
+    this._offsetY = event.offsetY;
   }
 }
