@@ -56,6 +56,10 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.drag = dragstart$.subscribe((event: DragEvent) => {
       // console.log('dragstart:', event);
 
+      this.subscriptions.dragover = dragover$.subscribe((dragoverEvent: DragEvent) => {
+        dragoverEvent.preventDefault();
+      });
+
       this.subscriptions.drop = drop$.take(1).subscribe((dragEvent: DragEvent) => {
         // console.log('drop:', dragEvent); // for debug
         // console.log('toElement', dragEvent.toElement); // drop先の取得
@@ -73,10 +77,6 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
         this.subscriptions.drop.unsubscribe();
         this.subscriptions.dragend.unsubscribe();
         this.subscriptions.dragover.unsubscribe();
-      });
-
-      this.subscriptions.dragover = dragover$.subscribe((dragoverEvent: DragEvent) => {
-        dragoverEvent.preventDefault();
       });
 
       const instance: DraggableCompoent = componentRef.instance;
