@@ -25,8 +25,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     drag: null,
     drop: null,
     dragover: null,
-    dragend: null,
-    resize: null
+    dragend: null
   };
 
   constructor(private overlay: Overlay,
