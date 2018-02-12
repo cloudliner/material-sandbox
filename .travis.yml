@@ -30,7 +30,7 @@ deploy:
   bucket: s3://material-sandbox/
   local-dir: dist
   acl: public_read
+  skip_cleanup: true
   on:
     repo: cloudliner/material-sandbox
     all_branches: true
-    skip_cleanup: true
