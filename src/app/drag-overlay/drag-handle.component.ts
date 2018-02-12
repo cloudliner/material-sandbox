@@ -54,7 +54,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     const drop$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
     this.subscriptions.drag = dragstart$.subscribe((event: DragEvent) => {
-      console.log('dragstart:', event);
+      // console.log('dragstart:', event);
 
       this.subscriptions.drop = drop$.take(1).subscribe((dragEvent: DragEvent) => {
         // console.log('drop:', dragEvent); // for debug
