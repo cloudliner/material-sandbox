@@ -53,14 +53,14 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     const drop$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
     this.subscriptions.drag = dragstart$.subscribe((event: DragEvent) => {
-      // console.log('dragstart:', event);
+      console.log('dragstart:', event);
 
       this.subscriptions.dragover = dragover$.subscribe((dragoverEvent: DragEvent) => {
         dragoverEvent.preventDefault();
       });
 
       this.subscriptions.drop = drop$.take(1).subscribe((dragEvent: DragEvent) => {
-        // console.log('drop:', dragEvent); // for debug
+        console.log('drop:', dragEvent); // for debug
         // console.log('toElement', dragEvent.toElement); // drop先の取得
         this.setPosition(
           this.offsetX + dragEvent.pageX - this.startX,
@@ -71,7 +71,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.subscriptions.dragend = dragend$.subscribe((dragendEvent: DragEvent) => {
-        // console.log('dragend', dragendEvent); // for debug
+        console.log('dragend', dragendEvent); // for debug
         overlayPane.style.opacity = '1';
         this.subscriptions.drop.unsubscribe();
         this.subscriptions.dragend.unsubscribe();
