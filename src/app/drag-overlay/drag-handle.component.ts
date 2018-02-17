@@ -74,22 +74,22 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
         dragEvent.preventDefault();
       });
 
-      this.subscriptions.dragend = dragend$.take(1).subscribe((dragendEvent: DragEvent) => {
+      this.subscriptions.dragend = dragend$.subscribe((dragendEvent: DragEvent) => {
         console.log('dragend', dragendEvent); // for debug
-        overlayPane.style.opacity = '1';
         this.setPosition(
           this.offsetX + dragendEvent.pageX - this.startX,
           this.offsetY + dragendEvent.pageY - this.startY);
         overlayPane.style.opacity = '1';
 
         this.subscriptions.drop.unsubscribe();
+        this.subscriptions.dragend.unsubscribe();
         this.subscriptions.dragover.unsubscribe();
       });
 
-      this.startX = event.pageX;
-      this.startY = event.pageY;
       const instance: DraggableCompoent = componentRef.instance;
       this.setDragImage(event, instance);  
+      this.startX = event.pageX;
+      this.startY = event.pageY;
       setTimeout(function() {
         overlayPane.style.opacity = '0';
       }, 0);
