@@ -4,8 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module';
 
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppComponent } from './app.component';
+import { SampleInnerComponent } from './sample-inner/sample-inner.component';
 
 @NgModule({
   imports: [
@@ -13,10 +15,12 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    LayoutModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    SampleInnerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
