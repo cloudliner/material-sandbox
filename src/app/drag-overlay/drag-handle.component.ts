@@ -87,7 +87,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       const instance: DraggableCompoent = componentRef.instance;
-      this.setDragImage(event, instance);  
+      this.setDragImage(event, instance);
       this.startX = event.pageX;
       this.startY = event.pageY;
       setTimeout(function() {
