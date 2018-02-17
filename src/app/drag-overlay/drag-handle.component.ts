@@ -23,7 +23,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
   private offsetY = 0;
   private subscriptions: { [key: string]: Subscription } = {
     drag: null,
-    drop: null,
+    // drop: null,
     dragover: null,
     dragend: null
   };
@@ -50,7 +50,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
     const dragstart$ = Observable.fromEvent(overlayPane, 'dragstart');
     const dragend$ = Observable.fromEvent(overlayPane, 'dragend');
     const dragover$ = Observable.fromEvent(targetElementRef.nativeElement, 'dragover');
-    const drop$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
+    // const drop$ = Observable.fromEvent(targetElementRef.nativeElement, 'drop');
 
     this.subscriptions.drag = dragstart$.subscribe((event: DragEvent) => {
       console.log('dragstart:', event);
@@ -59,32 +59,36 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
         dragoverEvent.preventDefault();
       });
 
+      /*
       this.subscriptions.drop = drop$.take(1).subscribe((dragEvent: DragEvent) => {
         console.log('drop:', dragEvent); // for debug
         // console.log('toElement', dragEvent.toElement); // drop先の取得
+
         this.setPosition(
           this.offsetX + dragEvent.pageX - this.startX,
           this.offsetY + dragEvent.pageY - this.startY);
         overlayPane.style.opacity = '1';
+
         this.subscriptions.dragover.unsubscribe();
         dragEvent.preventDefault();
       });
+       */
 
-      this.subscriptions.dragend = dragend$.subscribe((dragendEvent: DragEvent) => {
+      this.subscriptions.dragend = dragend$.take(1).subscribe((dragendEvent: DragEvent) => {
         console.log('dragend', dragendEvent); // for debug
         overlayPane.style.opacity = '1';
-        this.subscriptions.drop.unsubscribe();
-        this.subscriptions.dragend.unsubscribe();
+        this.setPosition(
+          this.offsetX + dragendEvent.pageX - this.startX,
+          this.offsetY + dragendEvent.pageY - this.startY);
+        overlayPane.style.opacity = '1';
+        // this.subscriptions.drop.unsubscribe();
         this.subscriptions.dragover.unsubscribe();
       });
 
       this.startX = event.pageX;
       this.startY = event.pageY;
-
-      setTimeout(function() {
-        const instance: DraggableCompoent = componentRef.instance;
-        this.setDragImage(event, instance);  
-      }, 0);
+      const instance: DraggableCompoent = componentRef.instance;
+      this.setDragImage(event, instance);  
       setTimeout(function() {
         overlayPane.style.opacity = '0';
       }, 0);
