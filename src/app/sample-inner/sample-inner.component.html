@@ -1,3 +1,11 @@
-<p>
-  sample-inner works!
-</p>
+<div>
+  <span>Widht: {{width}}</span>
+  <span>Height: {{height}}</span>
+</div>
+
+<div *ngIf="isHandsetPortrait">HandsetPortrait</div>
+<div *ngIf="isHandset">Handset</div>
+<div *ngIf="isTabletPortrait">TabletPortrait</div>
+<div *ngIf="isTablet">Tablet</div>
+<div *ngIf="isWebPortrait">WebPortrait</div>
+<div *ngIf="isWeb">Web</div>
