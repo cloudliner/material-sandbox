@@ -64,14 +64,13 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('drop:', dragEvent); // for debug
         // console.log('toElement', dragEvent.toElement); // drop先の取得
 
-        /*
         this.setPosition(
           this.offsetX + dragEvent.pageX - this.startX,
           this.offsetY + dragEvent.pageY - this.startY);
         overlayPane.style.opacity = '1';
 
+        this.subscriptions.dragend.unsubscribe();
         this.subscriptions.dragover.unsubscribe();
-        */
         dragEvent.preventDefault();
       });
 
@@ -82,6 +81,7 @@ export class DragHandleComponent implements OnInit, AfterViewInit, OnDestroy {
           this.offsetX + dragendEvent.pageX - this.startX,
           this.offsetY + dragendEvent.pageY - this.startY);
         overlayPane.style.opacity = '1';
+
         this.subscriptions.drop.unsubscribe();
         this.subscriptions.dragover.unsubscribe();
       });
