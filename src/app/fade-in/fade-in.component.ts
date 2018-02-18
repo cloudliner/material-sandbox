@@ -44,7 +44,7 @@ interface PoiItem {
     trigger('newItem', [
       transition(':enter', [
         style({
-          transform: 'translateY(-50%)'
+          transform: 'translateX(-50%)'
         }),
         animate('0.2s ease-in')
       ])
