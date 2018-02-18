@@ -52,7 +52,9 @@ export class FadeInComponent implements OnInit {
 
   click(event) {
     console.log('click', event);
-    const overlayRef = this.overlay.create(this.overlayConfig);
-    this.templatePortal.attach(overlayRef);
+    if (!this.templatePortal.isAttached) {
+      const overlayRef = this.overlay.create(this.overlayConfig);
+      this.templatePortal.attach(overlayRef);
+    }
   }
 }

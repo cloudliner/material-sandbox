@@ -8,11 +8,11 @@
 }
 @media screen and (min-width:780px) {
   aside {
-    width: 380px;
+    width: 300px;
     float: left;
   }
   section {
-    width: 380px;
+    width: calc(100% - 300px);
     float: right;
   }
 }
