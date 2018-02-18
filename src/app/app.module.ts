@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
+import { FadeInModule } from './fade-in/fade-in.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FadeInModule
   ],
   declarations: [
     AppComponent
