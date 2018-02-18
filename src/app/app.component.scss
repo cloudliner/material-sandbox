@@ -1,0 +1,18 @@
+@media screen and (max-width:779px) {
+  aside {
+    display:none;
+  }
+  section {
+    width: auto;
+  }
+}
+@media screen and (min-width:780px) {
+  aside {
+    width: 380px;
+    float: left;
+  }
+  section {
+    width: 380px;
+    float: right;
+  }
+}
